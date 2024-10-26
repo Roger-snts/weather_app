@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/controllers/requests.dart';
 import 'package:weather_app/data/http_client.dart';
 import 'package:weather_app/stores/weather_store.dart';
+import 'package:weather_app/widgets/base_widgets.dart';
 
 class MobileScaffold extends StatefulWidget {
   const MobileScaffold({super.key});
@@ -27,60 +28,13 @@ class _MobileScaffoldState extends State<MobileScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
+      appBar: myAppBar(context),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             Expanded(
-              child: AnimatedBuilder(
-                animation: Listenable.merge(
-                    [weatherStore.isLoading, weatherStore.state, weatherStore.erro]),
-                builder: (context, child) {
-                  if (weatherStore.isLoading.value) {
-                    return CircularProgressIndicator();
-                  }
-
-                  if (weatherStore.erro.value.isNotEmpty) {
-                    return Center(
-                        child: Text(
-                      weatherStore.erro.value,
-                      textAlign: TextAlign.center,
-                    ));
-                  }
-
-                  if (weatherStore.state.value.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        "Nenhum item encontrado...",
-                        textAlign: TextAlign.center,
-                      ),
-                    );
-                  } else {
-                    return ListView.separated(
-                        separatorBuilder: (context, index) => const SizedBox(
-                              height: 12,
-                            ),
-                        itemCount: weatherStore.state.value.length,
-                        itemBuilder: (_, index) {
-                          final item = weatherStore.state.value[index];
-                          return Column(
-                            children: [
-                              ListTile(
-                                trailing: Text(
-                                  item.temperaturaInCelsius.toStringAsFixed(2),
-                                  style: TextStyle(fontSize: 22),
-                                ),
-                                title: Text("Temperatura atual"),
-                              ),
-                            ],
-                          );
-                        });
-                  }
-                },
-              ),
+              child: myAnimatedBuilder(weatherStore)
             ),
             const Row(
               children: [

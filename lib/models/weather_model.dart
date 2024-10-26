@@ -8,14 +8,14 @@ class WeatherModel {
   final String tituloEstado;
   final String descricaoEstado;
   final String umidade;
+  final String temperaturaInCelsius;
   final double velocidadeVentoKM;
-  final double temperaturaInCelsius;
 
   WeatherModel({
-    required this.tituloEstado, 
-    required this.descricaoEstado, 
-    required this.umidade, 
-    required this.velocidadeVentoKM, 
+    required this.tituloEstado,
+    required this.descricaoEstado,
+    required this.umidade,
+    required this.velocidadeVentoKM,
     required this.temperaturaInCelsius,
     required this.cidade,
     required this.estado,
@@ -31,11 +31,11 @@ class WeatherModel {
       pais: map['sys']['country'],
       lat: map['coord']['lat'].toString(),
       lon: map['coord']['lon'].toString(),
-      tituloEstado: map['weather'][0]['main'], 
-      descricaoEstado: map['weather'][0]['description'], 
-      umidade: map['main']['humidity'].toString(), 
-      velocidadeVentoKM: map['wind']['speed'] * 3.6, 
-      temperaturaInCelsius: map['main']['temp'] - 273,
+      tituloEstado: map['weather'][0]['main'],
+      descricaoEstado: map['weather'][0]['description'],
+      umidade: map['main']['humidity'].toString(),
+      temperaturaInCelsius: (map['main']['temp'] - 273).toStringAsFixed(2),
+      velocidadeVentoKM: map['wind']['speed'] * 3.6,
     );
   }
 }
