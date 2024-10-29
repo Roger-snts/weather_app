@@ -49,6 +49,16 @@ class WeatherController implements IWeatherController, IHTTPController {
       required this.estado,
       required this.pais});
 
+  factory WeatherController.empty(){
+    return WeatherController(
+      cliente: HttpCliente(),
+      cidade: " ",
+      estado: " ",
+      pais: " ",
+      );
+  }
+
+
   @override
   Future<List<WeatherModel>> getWeather() async {
     final response = await cliente.get(url: url);
