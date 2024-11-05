@@ -12,7 +12,8 @@ class MobileScaffold extends StatefulWidget {
 }
 
 class _MobileScaffoldState extends State<MobileScaffold> {
-  late WeatherStore weatherStore = WeatherStore(controller: WeatherController.empty());
+  late WeatherStore weatherStore =
+      WeatherStore(controller: WeatherController.empty());
   final formKey = GlobalKey<FormState>();
   TextEditingController nomeCidade = TextEditingController();
   TextEditingController nomeEstado = TextEditingController();
@@ -20,8 +21,13 @@ class _MobileScaffoldState extends State<MobileScaffold> {
 
   cityDefine() {
     setState(() {
-       weatherStore = WeatherStore(controller: WeatherController(cliente: HttpCliente(), cidade: nomeCidade.text, estado: nomeEstado.text, pais: nomePais.text));
-       weatherStore.getCities();
+      weatherStore = WeatherStore(
+          controller: WeatherController(
+              cliente: HttpCliente(),
+              cidade: nomeCidade.text,
+              estado: nomeEstado.text,
+              pais: nomePais.text));
+      weatherStore.getCities();
     });
   }
 
@@ -33,10 +39,21 @@ class _MobileScaffoldState extends State<MobileScaffold> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Expanded(
-              child: myAnimatedBuilder(weatherStore)
+            Flexible(
+              flex: 4,
+              child: myAnimatedBuilder(weatherStore),
             ),
-            myFormBar(formKey, nomeCidade, nomeEstado, nomePais, cityDefine, weatherStore)
+            Flexible(
+              flex: 1,
+              child: myFormBar(
+                formKey,
+                nomeCidade,
+                nomeEstado,
+                nomePais,
+                cityDefine,
+                weatherStore,
+              ),
+            ),
           ],
         ),
       ),

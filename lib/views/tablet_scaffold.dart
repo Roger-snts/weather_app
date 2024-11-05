@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:weather_app/controllers/requests.dart';
 import 'package:weather_app/data/http_client.dart';
@@ -13,7 +12,8 @@ class TabletScaffold extends StatefulWidget {
 }
 
 class _TabletScaffoldState extends State<TabletScaffold> {
-  late WeatherStore weatherStore = WeatherStore(controller: WeatherController.empty());
+  late WeatherStore weatherStore =
+      WeatherStore(controller: WeatherController.empty());
   final formKey = GlobalKey<FormState>();
   TextEditingController nomeCidade = TextEditingController();
   TextEditingController nomeEstado = TextEditingController();
@@ -21,8 +21,14 @@ class _TabletScaffoldState extends State<TabletScaffold> {
 
   cityDefine() {
     setState(() {
-       weatherStore = WeatherStore(controller: WeatherController(cliente: HttpCliente(), cidade: nomeCidade.text, estado: nomeEstado.text, pais: nomePais.text));
-       weatherStore.getCities();
+      weatherStore = WeatherStore(
+        controller: WeatherController(
+            cliente: HttpCliente(),
+            cidade: nomeCidade.text,
+            estado: nomeEstado.text,
+            pais: nomePais.text),
+      );
+      weatherStore.getCities();
     });
   }
 
@@ -34,10 +40,22 @@ class _TabletScaffoldState extends State<TabletScaffold> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Expanded(
-              child: myAnimatedBuilder(weatherStore)
-            ),
-            myFormBar(formKey, nomeCidade, nomeEstado, nomePais, cityDefine, weatherStore)
+            Flexible(
+                flex: 4,
+                child: myAnimatedBuilder(
+                  weatherStore,
+                )),
+            Flexible(
+              flex: 1,
+              child: myFormBar(
+                formKey,
+                nomeCidade,
+                nomeEstado,
+                nomePais,
+                cityDefine,
+                weatherStore,
+              ),
+            )
           ],
         ),
       ),
