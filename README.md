@@ -1,16 +1,19 @@
-# weather_app
+# Weather App
 
-A new Flutter project.
+Código bruto de um app desenvolvido em Flutter com integração da api Weatherforecast.
 
-## Getting Started
+## Finalidade
 
-This project is a starting point for a Flutter application.
+Verificar detalhes climáticos em diversas regiões apenas determinando a localização.
 
-A few resources to get you started if this is your first Flutter project:
+## Funcionalidades
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Pesquisa por região
+- Portabilidade
+- Mudanças de unidades de medida
+- Gráficos informativos
+- Previsões dos dias seguintes
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Como acessar
+
+É possível acessar a aplicação web do Weather App por meio do link: []
