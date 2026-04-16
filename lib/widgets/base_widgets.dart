@@ -37,17 +37,32 @@ myGridBlocks(var item, BoxConstraints constraints) {
       ],
     );
   } else {
-    return GridView.count(
-      crossAxisCount: 4,
-      mainAxisSpacing: 10,
-      childAspectRatio: 1,
-      crossAxisSpacing: 10,
-      padding: const EdgeInsets.all(8),
+    return Column(
       children: [
-        myBlock(item.temperaturaInCelsius),
-        myBlock(item.tituloEstado),
-        myBlock(item.umidade),
-        myBlock(item.descricaoEstado),
+        AspectRatio(
+          aspectRatio: 4,
+          child: SizedBox(
+            width: double.infinity,
+            child: GridView.count(
+              crossAxisCount: 4,
+              mainAxisSpacing: 10,
+              childAspectRatio: 1,
+              crossAxisSpacing: 10,
+              padding: const EdgeInsets.all(8),
+              children: [
+                myBlock(item.temperaturaInCelsius),
+                myBlock(item.tituloEstado),
+                myBlock(item.umidade),
+                myBlock(item.descricaoEstado),
+              ],
+            ),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            color: Colors.red,
+          ),
+        )
       ],
     );
   }
@@ -107,127 +122,246 @@ myAnimatedBuilder(WeatherStore weatherStore) {
 }
 
 myFormBar(
-  var formKey,
-  TextEditingController nomeCidade,
-  TextEditingController nomeEstado,
-  TextEditingController nomePais,
-  Function cityDefine,
-  WeatherStore weatherStore,
-) {
-  return Column(
-    children: [
-      const Row(
-        children: [
-          Icon(Icons.pin_drop_outlined),
-          Text(
-            "Defina o local",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.underline),
-          ),
-        ],
-      ),
-      Form(
-        key: formKey,
-        child: Flexible(
-          child: Row(
-            children: [
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Cidade"),
-                      Flexible(
-                        child: TextFormField(
-                          autocorrect: true,
-                          maxLength: 18,
-                          keyboardType: TextInputType.streetAddress,
-                          decoration: const InputDecoration(hintText: "Nome"),
-                          controller: nomeCidade,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Informe: cidade";
-                            } else {
-                              return null;
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Estado:"),
-                      Flexible(
-                        child: TextFormField(
-                          autocorrect: true,
-                          maxLength: 5,
-                          keyboardType: TextInputType.streetAddress,
-                          decoration: const InputDecoration(hintText: "UF"),
-                          controller: nomeEstado,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Sigla da UF";
-                            } else {
-                              return null;
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("País:"),
-                      Flexible(
-                        child: TextFormField(
-                          autocorrect: true,
-                          maxLength: 5,
-                          keyboardType: TextInputType.streetAddress,
-                          decoration: const InputDecoration(hintText: "Sigla"),
-                          controller: nomePais,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Sigla do País";
-                            } else {
-                              return null;
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    cityDefine();
-                    weatherStore.getCities();
-                  }
-                },
-                child: const Icon(Icons.search),
-              )
-            ],
-          ),
+    var formKey,
+    TextEditingController nomeCidade,
+    TextEditingController nomeEstado,
+    TextEditingController nomePais,
+    Function cityDefine,
+    WeatherStore weatherStore,
+    {String type = ""}) {
+  if (type == "") {
+    return Column(
+      children: [
+        const Row(
+          children: [
+            Icon(Icons.pin_drop_outlined),
+            Text(
+              "Defina o local",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline),
+            ),
+          ],
         ),
-      )
-    ],
-  );
+        Form(
+          key: formKey,
+          child: Flexible(
+            child: Row(
+              children: [
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Cidade"),
+                        Flexible(
+                          child: TextFormField(
+                            autocorrect: true,
+                            maxLength: 18,
+                            keyboardType: TextInputType.streetAddress,
+                            decoration: const InputDecoration(hintText: "Nome"),
+                            controller: nomeCidade,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Informe: cidade";
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Estado:"),
+                        Flexible(
+                          child: TextFormField(
+                            autocorrect: true,
+                            maxLength: 5,
+                            keyboardType: TextInputType.streetAddress,
+                            decoration: const InputDecoration(hintText: "UF"),
+                            controller: nomeEstado,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Sigla da UF";
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("País:"),
+                        Flexible(
+                          child: TextFormField(
+                            autocorrect: true,
+                            maxLength: 5,
+                            keyboardType: TextInputType.streetAddress,
+                            decoration:
+                                const InputDecoration(hintText: "Sigla"),
+                            controller: nomePais,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Sigla do País";
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      cityDefine();
+                      weatherStore.getCities();
+                    }
+                  },
+                  child: const Icon(Icons.search),
+                )
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+  } else {
+    return Column(
+      children: [
+        const Row(
+          children: [
+            Icon(Icons.pin_drop_outlined),
+            Text(
+              "Defina o local",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline),
+            ),
+          ],
+        ),
+        Form(
+          key: formKey,
+          child: Flexible(
+            child: Column(
+              children: [
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Cidade"),
+                        Flexible(
+                          child: TextFormField(
+                            autocorrect: true,
+                            maxLength: 18,
+                            keyboardType: TextInputType.streetAddress,
+                            decoration: const InputDecoration(hintText: "Nome"),
+                            controller: nomeCidade,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Informe: cidade";
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Estado:"),
+                        Flexible(
+                          child: TextFormField(
+                            autocorrect: true,
+                            maxLength: 5,
+                            keyboardType: TextInputType.streetAddress,
+                            decoration: const InputDecoration(hintText: "UF"),
+                            controller: nomeEstado,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Sigla da UF";
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("País:"),
+                        Flexible(
+                          child: TextFormField(
+                            autocorrect: true,
+                            maxLength: 5,
+                            keyboardType: TextInputType.streetAddress,
+                            decoration:
+                                const InputDecoration(hintText: "Sigla"),
+                            controller: nomePais,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Sigla do País";
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      cityDefine();
+                      weatherStore.getCities();
+                    }
+                  },
+                  child: const Icon(Icons.search),
+                )
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+  }
 }
 
 
