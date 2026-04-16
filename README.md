@@ -44,7 +44,7 @@ flutter run
 
 ## Como acessar
 
-É possível acessar a aplicação web do Weather App por meio do link: [Wheather App, /index.html]
+É possível acessar a aplicação web do Weather App por meio do link: [Wheather App](index.html)
 
 ## O que eu aprendi
 
